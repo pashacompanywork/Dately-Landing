@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dately - Dating Tracker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            color: #1A1A1A;
+            background: #FFFFFF;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Nav */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 100;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+        }
+
+        .nav-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 700;
+            color: #1A1A1A;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+        }
+
+        .nav-cta {
+            background: #C17B50;
+            color: white;
+            padding: 10px 22px;
+            border-radius: 100px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: background 0.2s;
+        }
+
+        .nav-cta:hover {
+            background: #A8674240;
+            background: #A86742;
+        }
+
+        /* Hero */
+        .hero {
+            padding: 140px 24px 80px;
+            background: linear-gradient(180deg, #FDF8F5 0%, #FFFFFF 100%);
+        }
+
+        .hero-layout {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 40px;
+            align-items: end;
+        }
+
+        .hero-text {
+            padding-bottom: 80px;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: #FDF0E8;
+            color: #C17B50;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 8px 18px;
+            border-radius: 100px;
+            margin-bottom: 28px;
+        }
+
+        .hero h1 {
+            font-size: clamp(36px, 5.5vw, 58px);
+            font-weight: 800;
+            line-height: 1.08;
+            letter-spacing: -2px;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 17px;
+            color: #666;
+            line-height: 1.65;
+            max-width: 420px;
+            margin-bottom: 36px;
+        }
+
+        .app-store-badge {
+            display: inline-block;
+            transition: transform 0.2s;
+        }
+
+        .app-store-badge:hover {
+            transform: scale(1.05);
+        }
+
+        .app-store-badge img {
+            height: 54px;
+        }
+
+        .hero-phones {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            gap: 80px;
+            position: relative;
+        }
+
+        .phone-frame {
+            background: #1A1A1A;
+            border-radius: 38px;
+            padding: 6px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.15), 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .phone-frame img {
+            display: block;
+            width: 100%;
+            border-radius: 34px;
+        }
+
+        .phone-frame-main {
+            width: 270px;
+            transform: rotate(-6deg);
+        }
+
+        .phone-frame-secondary {
+            width: 240px;
+            margin-top: 60px;
+            transform: rotate(6deg);
+        }
+
+        .hero-arrow {
+            position: absolute;
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        /* Section base */
+        section {
+            padding: 100px 24px;
+        }
+
+        .section-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .section-label {
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #C17B50;
+            margin-bottom: 12px;
+        }
+
+        .section-title {
+            font-size: clamp(28px, 4vw, 42px);
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            line-height: 1.15;
+            margin-bottom: 16px;
+        }
+
+        .section-subtitle {
+            font-size: 18px;
+            color: #666;
+            line-height: 1.6;
+            max-width: 520px;
+        }
+
+        /* Problem */
+        .problem {
+            background: #FAF9F7;
+        }
+
+        .problem-inner {
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .problem-quote {
+            font-size: clamp(22px, 3.5vw, 32px);
+            font-weight: 600;
+            line-height: 1.4;
+            color: #1A1A1A;
+            font-style: italic;
+        }
+
+        .problem-quote .highlight {
+            color: #C17B50;
+            font-style: normal;
+        }
+
+        .problem-after {
+            margin-top: 28px;
+            font-size: 17px;
+            color: #888;
+            line-height: 1.6;
+        }
+
+        /* How it works */
+        .how-it-works {
+            background: #FFFFFF;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 48px;
+            margin-top: 56px;
+        }
+
+        .step {
+            text-align: center;
+        }
+
+        .step-number {
+            width: 52px;
+            height: 52px;
+            background: #FDF0E8;
+            color: #C17B50;
+            border-radius: 16px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+
+        .step h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .step p {
+            font-size: 15px;
+            color: #888;
+            line-height: 1.6;
+        }
+
+        /* Carousel */
+        .carousel-section {
+            background: #FAF9F7;
+        }
+
+        .carousel-header {
+            text-align: center;
+            margin-bottom: 56px;
+        }
+
+        .carousel {
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        .carousel-track {
+            display: flex;
+            transition: transform 0.4s ease;
+        }
+
+        .carousel-slide {
+            min-width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .carousel-text {
+            max-width: 400px;
+        }
+
+        .carousel-image-wrapper {
+            display: flex;
+            justify-content: center;
+        }
+
+        .phone-frame-carousel {
+            max-width: 280px;
+            width: 100%;
+        }
+
+        .carousel-list {
+            list-style: none;
+            margin-top: 20px;
+        }
+
+        .carousel-list li {
+            padding: 8px 0;
+            font-size: 15px;
+            color: #555;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            line-height: 1.5;
+        }
+
+        .carousel-list li::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            min-width: 8px;
+            background: #C17B50;
+            border-radius: 50%;
+            margin-top: 6px;
+        }
+
+        .carousel-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 48px;
+        }
+
+        .carousel-dots {
+            display: flex;
+            gap: 10px;
+        }
+
+        .carousel-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #DDD;
+            border: none;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .carousel-dot.active {
+            background: #C17B50;
+        }
+
+        /* Privacy */
+        .privacy {
+            background: #1A1A1A;
+            color: #FFFFFF;
+            text-align: center;
+        }
+
+        .privacy .section-label {
+            color: #D4956E;
+        }
+
+        .privacy .section-title {
+            color: #FFFFFF;
+        }
+
+        .privacy p {
+            color: #999;
+            font-size: 18px;
+            line-height: 1.7;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .privacy-features {
+            display: flex;
+            justify-content: center;
+            gap: 48px;
+            margin-top: 48px;
+            flex-wrap: wrap;
+        }
+
+        .privacy-item {
+            text-align: center;
+        }
+
+        .privacy-icon {
+            font-size: 32px;
+            margin-bottom: 12px;
+        }
+
+        .privacy-item span {
+            display: block;
+            font-size: 15px;
+            font-weight: 600;
+            color: #CCC;
+        }
+
+        /* Final CTA */
+        .final-cta {
+            padding: 120px 24px;
+            text-align: center;
+            background: linear-gradient(180deg, #FFFFFF 0%, #FDF8F5 100%);
+        }
+
+        .final-cta h2 {
+            font-size: clamp(28px, 4vw, 42px);
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 16px;
+        }
+
+        .final-cta p {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 36px;
+        }
+
+        /* Platforms */
+        .platforms {
+            margin-top: 32px;
+            font-size: 14px;
+            color: #AAA;
+        }
+
+        /* Footer */
+        footer {
+            padding: 40px 24px;
+            text-align: center;
+            border-top: 1px solid #F0F0F0;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            margin-bottom: 16px;
+        }
+
+        .footer-links a {
+            color: #999;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: #C17B50;
+        }
+
+        .footer-copy {
+            color: #CCC;
+            font-size: 13px;
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .hero {
+                padding: 120px 20px 60px;
+            }
+
+            .steps {
+                grid-template-columns: 1fr;
+                gap: 36px;
+            }
+
+            .carousel-slide {
+                grid-template-columns: 1fr;
+                gap: 32px;
+                text-align: center;
+            }
+
+            .carousel-image-wrapper {
+                order: -1;
+            }
+
+            .phone-frame-carousel {
+                max-width: 220px;
+            }
+
+            .carousel-list li {
+                justify-content: center;
+            }
+
+            section {
+                padding: 72px 20px;
+            }
+
+            .privacy-features {
+                gap: 32px;
+            }
+
+            .hero-layout {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-text {
+                padding-bottom: 40px;
+            }
+
+            .hero p {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .hero-phones {
+                gap: 20px;
+            }
+
+            .phone-frame-main {
+                width: 180px;
+                transform: rotate(-4deg);
+            }
+
+            .phone-frame-secondary {
+                width: 155px;
+                margin-top: 40px;
+                transform: rotate(4deg);
+            }
+
+            .hero-arrow {
+                width: 50px;
+                height: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Nav -->
+    <nav>
+        <div class="nav-inner">
+            <a href="https://apps.apple.com/us/app/dately-dating-journal-diary/id6761208917" class="logo">
+                <img src="images/icon.png" alt="Dately icon" class="logo-icon"> Dately
+            </a>
+            <a href="https://apps.apple.com/us/app/dately-dating-journal-diary/id6761208917" class="nav-cta">Download</a>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-layout">
+            <div class="hero-text">
+                <div class="hero-badge">Like a fitness tracker, but for your dating life</div>
+                <h1>Become a<br>Better Dater.</h1>
+                <p>Track your matches, reflect after every date, and discover the patterns you can't see in the moment.</p>
+                <a href="https://apps.apple.com/us/app/dately-dating-journal-diary/id6761208917" class="app-store-badge" id="download">
+                    <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83" alt="Download on the App Store">
+                </a>
+            </div>
+            <div class="hero-phones">
+                <div class="phone-frame phone-frame-main">
+                    <img src="images/hero-list.png" alt="Dately match tracking">
+                </div>
+                <div class="phone-frame phone-frame-secondary">
+                    <img src="images/insights.png" alt="Dately insights">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How it works -->
+    <section class="how-it-works">
+        <div class="section-inner" style="text-align: center;">
+            <div class="section-label">How it works</div>
+            <h2 class="section-title">Three steps to dating clarity</h2>
+        </div>
+        <div class="section-inner">
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Track</h3>
+                    <p>Add matches and see them move through stages, from first message to first date and beyond.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Reflect</h3>
+                    <p>Quick 60-second debrief after each date. Energy, conversation, gut feeling, and more.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Discover</h3>
+                    <p>Pattern reports unlock as you log more data. See what you'd never notice on your own.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Carousel -->
+    <section class="carousel-section">
+        <div class="section-inner">
+            <div class="carousel-header">
+                <div class="section-label">Features</div>
+                <h2 class="section-title">Everything you need to date smarter</h2>
+            </div>
+            <div class="carousel">
+                <div class="carousel-track" id="carouselTrack">
+                    <!-- Slide 1: Patterns -->
+                    <div class="carousel-slide">
+                        <div class="carousel-text">
+                            <div class="section-label">Pattern Reports</div>
+                            <h2 class="section-title">See what you can't see in the moment</h2>
+                            <p class="section-subtitle">Insights unlock progressively as you log more dates. Every card feels earned, not overwhelming.</p>
+                            <ul class="carousel-list">
+                                <li>Your Energy Patterns across dates</li>
+                                <li>Where most matches drop off</li>
+                                <li>What keeps attracting you</li>
+                                <li>How accurate your gut feelings are</li>
+                            </ul>
+                        </div>
+                        <div class="carousel-image-wrapper">
+                            <div class="phone-frame phone-frame-carousel">
+                                <img src="images/patterns.png" alt="Energy patterns and drop-off insights">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Slide 2: Insights -->
+                    <div class="carousel-slide">
+                        <div class="carousel-text">
+                            <div class="section-label">Deep Insights</div>
+                            <h2 class="section-title">Find your real dealbreakers</h2>
+                            <p class="section-subtitle">Dately reveals the reasons that keep ending things, even when you don't realise it. Stop repeating patterns. Start noticing them.</p>
+                        </div>
+                        <div class="carousel-image-wrapper">
+                            <div class="phone-frame phone-frame-carousel">
+                                <img src="images/insights.png" alt="Dealbreaker and hidden insight cards">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Slide 3: Recap -->
+                    <div class="carousel-slide">
+                        <div class="carousel-text">
+                            <div class="section-label">Monthly Recap</div>
+                            <h2 class="section-title">Your dating life, wrapped</h2>
+                            <p class="section-subtitle">Every month, get a snapshot: matches, first dates, top attraction, and your Dater Type. The Overthinker, The Quick Decider, The Slow Burner, and more.</p>
+                            <ul class="carousel-list">
+                                <li>Shareable recap card</li>
+                                <li>Personality-based Dater Type</li>
+                                <li>Month-over-month trends</li>
+                            </ul>
+                        </div>
+                        <div class="carousel-image-wrapper">
+                            <div class="phone-frame phone-frame-carousel">
+                                <img src="images/recap.png" alt="Monthly dating recap with Dater Type">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-controls">
+                <div class="carousel-dots" id="carouselDots">
+                    <button class="carousel-dot active" data-index="0"></button>
+                    <button class="carousel-dot" data-index="1"></button>
+                    <button class="carousel-dot" data-index="2"></button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Privacy -->
+    <section class="privacy">
+        <div class="section-inner">
+            <div class="section-label">Privacy First</div>
+            <h2 class="section-title">Your data stays on your phone</h2>
+            <p>No accounts. No cloud. No tracking. Just you and your honest reflections.</p>
+            <div class="privacy-features">
+                <div class="privacy-item">
+                    <div class="privacy-icon">&#x1F512;</div>
+                    <span>No accounts</span>
+                </div>
+                <div class="privacy-item">
+                    <div class="privacy-icon">&#x1F4F1;</div>
+                    <span>On-device only</span>
+                </div>
+                <div class="privacy-item">
+                    <div class="privacy-icon">&#x1F6AB;</div>
+                    <span>No tracking</span>
+                </div>
+                <div class="privacy-item">
+                    <div class="privacy-icon">&#x2601;&#xFE0F;</div>
+                    <span>No cloud sync</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="final-cta">
+        <h2>Stop guessing. Start noticing.</h2>
+        <p>Track your matches, reflect after dates, and discover your patterns.</p>
+        <a href="https://apps.apple.com/us/app/dately-dating-journal-diary/id6761208917" class="app-store-badge">
+            <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83" alt="Download on the App Store">
+        </a>
+        <p class="platforms">Works with Hinge, Tinder, Bumble, Breeze, and IRL connections</p>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="https://pashacompanywork.github.io/Legal_Docs/terms">Terms of Use</a>
+            <a href="https://pashacompanywork.github.io/Legal_Docs/policy">Privacy Policy</a>
+        </div>
+        <p class="footer-copy">&copy; 2026 Dately. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const track = document.getElementById('carouselTrack');
+        const dots = document.querySelectorAll('.carousel-dot');
+        let current = 0;
+        const total = 3;
+        let autoplay;
+
+        function goTo(index) {
+            current = (index + total) % total;
+            track.style.transform = `translateX(-${current * 100}%)`;
+            dots.forEach(d => d.classList.remove('active'));
+            dots[current].classList.add('active');
+        }
+
+        function startAutoplay() {
+            autoplay = setInterval(() => goTo(current + 1), 4000);
+        }
+
+        dots.forEach(d => d.addEventListener('click', () => {
+            clearInterval(autoplay);
+            goTo(+d.dataset.index);
+            startAutoplay();
+        }));
+
+        let startX = 0;
+        track.addEventListener('touchstart', e => {
+            clearInterval(autoplay);
+            startX = e.touches[0].clientX;
+        });
+        track.addEventListener('touchend', e => {
+            const diff = startX - e.changedTouches[0].clientX;
+            if (Math.abs(diff) > 50) goTo(current + (diff > 0 ? 1 : -1));
+            startAutoplay();
+        });
+
+        startAutoplay();
+    </script>
+</body>
+</html>
